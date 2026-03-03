@@ -1,0 +1,42 @@
+{% extends "dashboard/base.html" %}
+{% block title %}Comprar Veiculo{% endblock %}
+{% block content %}
+<div class="d-flex align-items-center mb-4">
+    <a href="{% url 'index' %}" class="btn btn-outline-secondary me-3"><i class="bi bi-arrow-left"></i></a>
+    <h2 class="mb-0"><i class="bi bi-cart me-2"></i>Comprar Veiculo</h2>
+</div>
+
+<div class="card p-4" style="max-width: 600px;">
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="veiculo_id" class="form-label fw-semibold">Veiculo</label>
+            {% if veiculos %}
+            <select class="form-select" id="veiculo_id" name="veiculo_id" required>
+                <option value="">Selecione um veiculo...</option>
+                {% for v in veiculos %}
+                <option value="{{ v.id }}">{{ v.marca }} {{ v.modelo }} ({{ v.ano }}) - R$ {{ v.preco|floatformat:2 }}</option>
+                {% endfor %}
+            </select>
+            {% else %}
+            <div class="alert alert-warning mb-0">
+                <i class="bi bi-exclamation-triangle me-2"></i>Nenhum veiculo disponivel para compra. Cadastre um veiculo primeiro.
+            </div>
+            {% endif %}
+        </div>
+        <div class="mb-3">
+            <label for="cpf_comprador" class="form-label fw-semibold">CPF do Comprador</label>
+            <input type="text" class="form-control" id="cpf_comprador" name="cpf_comprador" placeholder="123.456.789-00" required>
+        </div>
+        <div class="mb-3">
+            <label for="data_venda" class="form-label fw-semibold">Data da Venda</label>
+            <input type="date" class="form-control" id="data_venda" name="data_venda" required>
+        </div>
+        {% if veiculos %}
+        <button type="submit" class="btn btn-success btn-action px-4">
+            <i class="bi bi-cart-check me-2"></i>Efetuar Compra
+        </button>
+        {% endif %}
+    </form>
+</div>
+{% endblock %}

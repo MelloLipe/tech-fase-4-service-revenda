@@ -1,0 +1,52 @@
+{% extends "dashboard/base.html" %}
+{% block title %}Editar Veiculo{% endblock %}
+{% block content %}
+<div class="d-flex align-items-center mb-4">
+    <a href="{% url 'index' %}" class="btn btn-outline-secondary me-3"><i class="bi bi-arrow-left"></i></a>
+    <h2 class="mb-0"><i class="bi bi-pencil me-2"></i>Editar Veiculo</h2>
+</div>
+
+<div class="card p-4" style="max-width: 600px;">
+    <div class="mb-3">
+        <span class="text-muted">ID:</span> <code>{{ veiculo.id }}</code>
+        <span class="ms-3 text-muted">Status:</span>
+        {% if veiculo.status == "DISPONIVEL" %}
+        <span class="badge bg-success">{{ veiculo.status }}</span>
+        {% elif veiculo.status == "VENDIDO" %}
+        <span class="badge bg-warning text-dark">{{ veiculo.status }}</span>
+        {% elif veiculo.status == "PAGO" %}
+        <span class="badge bg-primary">{{ veiculo.status }}</span>
+        {% else %}
+        <span class="badge bg-secondary">{{ veiculo.status }}</span>
+        {% endif %}
+    </div>
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="marca" class="form-label fw-semibold">Marca</label>
+            <input type="text" class="form-control" id="marca" name="marca" value="{{ veiculo.marca }}">
+        </div>
+        <div class="mb-3">
+            <label for="modelo" class="form-label fw-semibold">Modelo</label>
+            <input type="text" class="form-control" id="modelo" name="modelo" value="{{ veiculo.modelo }}">
+        </div>
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <label for="ano" class="form-label fw-semibold">Ano</label>
+                <input type="number" class="form-control" id="ano" name="ano" value="{{ veiculo.ano }}">
+            </div>
+            <div class="col-md-4 mb-3">
+                <label for="cor" class="form-label fw-semibold">Cor</label>
+                <input type="text" class="form-control" id="cor" name="cor" value="{{ veiculo.cor }}">
+            </div>
+            <div class="col-md-4 mb-3">
+                <label for="preco" class="form-label fw-semibold">Preco (R$)</label>
+                <input type="number" class="form-control" id="preco" name="preco" value="{{ veiculo.preco }}" step="0.01">
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-action px-4">
+            <i class="bi bi-check-lg me-2"></i>Salvar Alteracoes
+        </button>
+    </form>
+</div>
+{% endblock %}

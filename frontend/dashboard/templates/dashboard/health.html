@@ -1,0 +1,37 @@
+{% extends "dashboard/base.html" %}
+{% block title %}Health Check{% endblock %}
+{% block content %}
+<div class="d-flex align-items-center mb-4">
+    <a href="{% url 'index' %}" class="btn btn-outline-secondary me-3"><i class="bi bi-arrow-left"></i></a>
+    <h2 class="mb-0"><i class="bi bi-heart-pulse me-2"></i>Health Check dos Servicos</h2>
+</div>
+
+<div class="row">
+    <div class="col-md-6 mb-4">
+        <div class="card p-4">
+            <h5>
+                <i class="bi bi-server me-2"></i>Servico Principal (:8000)
+                {% if main_status == 200 %}
+                <span class="badge bg-success ms-2">Online</span>
+                {% else %}
+                <span class="badge bg-danger ms-2">Offline ({{ main_status }})</span>
+                {% endif %}
+            </h5>
+            <pre class="bg-light p-3 rounded mt-3 mb-0"><code>{{ main_data }}</code></pre>
+        </div>
+    </div>
+    <div class="col-md-6 mb-4">
+        <div class="card p-4">
+            <h5>
+                <i class="bi bi-shop me-2"></i>Servico de Vendas (:8001)
+                {% if sales_status == 200 %}
+                <span class="badge bg-success ms-2">Online</span>
+                {% else %}
+                <span class="badge bg-danger ms-2">Offline ({{ sales_status }})</span>
+                {% endif %}
+            </h5>
+            <pre class="bg-light p-3 rounded mt-3 mb-0"><code>{{ sales_data }}</code></pre>
+        </div>
+    </div>
+</div>
+{% endblock %}
