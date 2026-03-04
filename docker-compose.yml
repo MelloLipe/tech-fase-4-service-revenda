@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+  servico-principal:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=sqlite:///./main_service.db
+      - SALES_SERVICE_URL=http://servico-vendas:8001
+    volumes:
+      - main_data:/app/data
+
+  servico-vendas:
+    build:
+      context: ../SOAT-tech-challenge-fastfood
+      dockerfile: Dockerfile
+    ports:
+      - "8001:8001"
+    environment:
+      - DATABASE_URL=sqlite:///./sales_service.db
+      - MAIN_SERVICE_URL=http://servico-principal:8000
+    volumes:
+      - sales_data:/app/data
+
+volumes:
+  main_data:
+  sales_data:

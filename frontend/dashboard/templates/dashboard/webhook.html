@@ -1,0 +1,32 @@
+{% extends "dashboard/base.html" %}
+{% block title %}Webhook Pagamento{% endblock %}
+{% block content %}
+<div class="d-flex align-items-center mb-4">
+    <a href="{% url 'index' %}" class="btn btn-outline-secondary me-3"><i class="bi bi-arrow-left"></i></a>
+    <h2 class="mb-0"><i class="bi bi-credit-card me-2"></i>Simular Webhook de Pagamento</h2>
+</div>
+
+<div class="card p-4" style="max-width: 600px;">
+    <div class="alert alert-info mb-4">
+        <i class="bi bi-info-circle me-2"></i>
+        Simule o webhook de pagamento enviando o codigo de pagamento recebido na compra e o status desejado (PAGO ou CANCELADO).
+    </div>
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="codigo_pagamento" class="form-label fw-semibold">Codigo de Pagamento</label>
+            <input type="text" class="form-control" id="codigo_pagamento" name="codigo_pagamento" placeholder="abc-123-def-456" required>
+        </div>
+        <div class="mb-3">
+            <label for="status" class="form-label fw-semibold">Status do Pagamento</label>
+            <select class="form-select" id="status" name="status" required>
+                <option value="PAGO">PAGO (Aprovado)</option>
+                <option value="CANCELADO">CANCELADO (Recusado)</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-warning btn-action px-4">
+            <i class="bi bi-send me-2"></i>Enviar Webhook
+        </button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,122 @@
+{% extends "dashboard/base.html" %}
+{% block title %}Dashboard - Revenda de Veiculos{% endblock %}
+{% block content %}
+<h2 class="mb-4"><i class="bi bi-speedometer2 me-2"></i>Dashboard</h2>
+
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card stat-card blue p-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <div class="text-muted small">Total Cadastrados</div>
+                    <div class="fs-2 fw-bold">{{ total_veiculos }}</div>
+                </div>
+                <i class="bi bi-car-front text-primary" style="font-size: 2.5rem;"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card stat-card green p-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <div class="text-muted small">Disponiveis p/ Venda</div>
+                    <div class="fs-2 fw-bold">{{ total_a_venda }}</div>
+                </div>
+                <i class="bi bi-tag text-success" style="font-size: 2.5rem;"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card stat-card orange p-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <div class="text-muted small">Vendidos</div>
+                    <div class="fs-2 fw-bold">{{ total_vendidos }}</div>
+                </div>
+                <i class="bi bi-check-circle text-warning" style="font-size: 2.5rem;"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-3">
+        <a href="{% url 'cadastrar_veiculo' %}" class="btn btn-primary btn-action w-100 py-3">
+            <i class="bi bi-plus-circle me-2"></i>Cadastrar Veiculo
+        </a>
+    </div>
+    <div class="col-md-3">
+        <a href="{% url 'comprar_veiculo' %}" class="btn btn-success btn-action w-100 py-3">
+            <i class="bi bi-cart me-2"></i>Comprar Veiculo
+        </a>
+    </div>
+    <div class="col-md-3">
+        <a href="{% url 'webhook_pagamento' %}" class="btn btn-warning btn-action w-100 py-3">
+            <i class="bi bi-credit-card me-2"></i>Webhook Pagamento
+        </a>
+    </div>
+    <div class="col-md-3">
+        <a href="{% url 'health_check' %}" class="btn btn-info btn-action w-100 py-3 text-white">
+            <i class="bi bi-heart-pulse me-2"></i>Health Check
+        </a>
+    </div>
+</div>
+
+{% if veiculos %}
+<div class="card p-4">
+    <h5 class="mb-3"><i class="bi bi-list-ul me-2"></i>Veiculos Cadastrados (Servico Principal :8000)</h5>
+    <div class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Marca</th>
+                    <th>Modelo</th>
+                    <th>Ano</th>
+                    <th>Cor</th>
+                    <th>Preco</th>
+                    <th>Status</th>
+                    <th>Acoes</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for v in veiculos %}
+                <tr>
+                    <td><code>{{ v.id|truncatechars:8 }}</code></td>
+                    <td>{{ v.marca }}</td>
+                    <td>{{ v.modelo }}</td>
+                    <td>{{ v.ano }}</td>
+                    <td>{{ v.cor }}</td>
+                    <td class="price">R$ {{ v.preco|floatformat:2 }}</td>
+                    <td>
+                        {% if v.status == "DISPONIVEL" %}
+                        <span class="badge bg-success">{{ v.status }}</span>
+                        {% elif v.status == "VENDIDO" %}
+                        <span class="badge bg-warning text-dark">{{ v.status }}</span>
+                        {% elif v.status == "PAGO" %}
+                        <span class="badge bg-primary">{{ v.status }}</span>
+                        {% elif v.status == "CANCELADO" %}
+                        <span class="badge bg-danger">{{ v.status }}</span>
+                        {% else %}
+                        <span class="badge bg-secondary">{{ v.status }}</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'editar_veiculo' v.id %}" class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-pencil"></i> Editar
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% else %}
+<div class="card p-5 text-center">
+    <i class="bi bi-car-front text-muted" style="font-size: 4rem;"></i>
+    <p class="text-muted mt-3 mb-0">Nenhum veiculo cadastrado ainda.</p>
+    <a href="{% url 'cadastrar_veiculo' %}" class="btn btn-primary mt-3">Cadastrar primeiro veiculo</a>
+</div>
+{% endif %}
+{% endblock %}
