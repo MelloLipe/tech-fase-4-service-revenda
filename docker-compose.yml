@@ -13,7 +13,7 @@ services:
 
   servico-vendas:
     build:
-      context: ../SOAT-tech-challenge-fastfood
+      context: ../tech-fase-4-service-revenda
       dockerfile: Dockerfile
     ports:
       - "8001:8001"
