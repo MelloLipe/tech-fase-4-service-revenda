@@ -72,7 +72,7 @@ docker-compose up --build
 ## Como testar
 
 ```bash
-pytest tests/ -v
+python -m pytest -v
 ```
 
 ## Fluxo completo (ponta-a-ponta)
