@@ -1,4 +1,4 @@
-# Servico Principal - Revenda de Veiculos
+# Servico Principal - Cadastro de Veiculos
 
 Microsservico principal responsavel pelo cadastro de veiculos para venda, edicao de dados e processamento de pagamentos via webhook. Faz parte da plataforma de revenda de veiculos automotores.
 
@@ -72,7 +72,7 @@ docker-compose up --build
 ## Como testar
 
 ```bash
-pytest tests/ -v
+python -m pytest -v
 ```
 
 ## Fluxo completo (ponta-a-ponta)
